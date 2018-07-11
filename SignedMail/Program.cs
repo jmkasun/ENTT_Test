@@ -16,7 +16,7 @@ namespace SignedMail
         {
             //send5();
 
-            mailer("kasun@zorrosign.com", "zorrosign@zorrosign.com", "zzz", "", "Signed Mail", File.ReadAllText(@"D:\MailBody.txt"), "", "");
+            mailer("kasun@zorrosign.com", "zorrosign@zorrosign.com", "zorrosign", "", "Signed Mail", File.ReadAllText(@"D:\MailBody.txt"), "", "");
         }
 
         private static void mailer(string toaddress, string fromaddress, string fromaddress_disp, string relays, string mailsubject, string bodytext, string ccman, string cccct)
@@ -25,24 +25,22 @@ namespace SignedMail
 
             MailAddress from = new MailAddress(fromaddress, fromaddress_disp);
             MailAddress to = new MailAddress(toaddress);
+
             // MailAddress cc_man = new MailAddress(ccman);
             // MailAddress cc_cct = new MailAddress(cccct);
+
             MailMessage message = new MailMessage(from, to);
             message.To.Add("kasun.jm@outlook.com");
             message.To.Add("kasun.jm1@gmail.com");
+            message.To.Add("kasun@zorrosign.com");
 
-            //message.To.Add("naleen@zorrosign.com");
-            //message.To.Add("entrustapps@gmail.com");
-
-            // message.CC.Add(cc_man);
-            //  message.CC.Add(cc_cct);
             message.Subject = mailsubject + DateTime.Now.ToShortTimeString();
             message.IsBodyHtml = true;
             string body = "Content-Type: text/html; charset=iso-8859-1 \r\nContent-Transfer-Encoding: 8bit\r\n\r\n" + bodytext;
             byte[] messageData = Encoding.ASCII.GetBytes(body);
             ContentInfo content = new ContentInfo(messageData);
 
-            SignedCms Cms = new SignedCms(new ContentInfo(messageData));
+            SignedCms Cms = new SignedCms(content);// new ContentInfo(messageData));
             X509Store store = new X509Store(StoreLocation.CurrentUser);
             store.Open(OpenFlags.ReadOnly);
 
@@ -68,15 +66,20 @@ namespace SignedMail
             }
 
             CmsSigner Signer = new CmsSigner(SubjectIdentifierType.IssuerAndSerialNumber, cert);
+            Signer.IncludeOption = X509IncludeOption.ExcludeRoot;
 
             // Encrypt with SHA384
             Signer.DigestAlgorithm = new Oid("2.16.840.1.101.3.4.2.2");
+            Signer.SignedAttributes.Add(new Pkcs9SigningTime());
+            Cms.ComputeSignature(Signer, false);
 
-            Cms.ComputeSignature(Signer);
             byte[] SignedBytes = Cms.Encode();
+
             MemoryStream signedStream = new MemoryStream(SignedBytes);
             AlternateView signedView = new AlternateView(signedStream, "application/pkcs7-mime; smime-type=signed-data; name=sig.p7m");
             message.AlternateViews.Add(signedView);
+            // message.Body = bodytext;
+      
 
 
             // Command line argument must the the SMTP host.
