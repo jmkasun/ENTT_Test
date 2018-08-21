@@ -18,7 +18,12 @@ namespace SignedMail
 
             mailer("kasun@zorrosign.com", "zorrosign@zorrosign.com", "zorrosign", "", "Signed Mail", File.ReadAllText(@"D:\MailBody.txt"), "", "");
         }
+        
 
+        /**
+         * Signing is working properly  
+         * expect when configure gmail with widows 10 mail. win 10 Mail client cand display the content
+         */
         private static void mailer(string toaddress, string fromaddress, string fromaddress_disp, string relays, string mailsubject, string bodytext, string ccman, string cccct)
         {
             string certname = "";
