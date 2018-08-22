@@ -23,25 +23,25 @@ index d78ff9c..20c3928 100644
 -- 
 2.16.2.windows.1
 
-From 4c7546b74702a554709ecafc41e0862c7dc16a30 Mon Sep 17 00:00:00 2001
+From 2c3d7af42e7412f3670ff59ecc0ad13d438b6af6 Mon Sep 17 00:00:00 2001
 From: Kasun Jayasekara <kasun@zorrosign.com>
-Date: Tue, 21 Aug 2018 11:50:01 +0530
-Subject: [PATCH] 011
+Date: Tue, 21 Aug 2018 11:50:20 +0530
+Subject: [PATCH] 12
 
 ---
  SignedMail/Test.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/SignedMail/Test.txt b/SignedMail/Test.txt
-index f381850..ea3a4a8 100644
+index ea3a4a8..d78ff9c 100644
 --- a/SignedMail/Test.txt
 +++ b/SignedMail/Test.txt
-@@ -17,7 +17,7 @@ Test Commit 1
+@@ -23,7 +23,7 @@ this is 11
  
  
  
 -
-+this is 11
++this is 12
  
  
  
